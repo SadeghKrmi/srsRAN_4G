@@ -56,7 +56,7 @@ namespace bpo = boost::program_options;
  *  Local static variables
  ***********************************************************************/
 
-static bool              do_metrics     = false;
+static bool              do_metrics     = true;
 static metrics_stdout*   metrics_screen = nullptr;
 static srslog::sink*     log_sink       = nullptr;
 static std::atomic<bool> running        = {true};
@@ -670,6 +670,7 @@ static void* input_loop(void*)
 {
   string key;
   while (running) {
+    metrics_screen->toggle_print(do_metrics);
     getline(cin, key);
     if (cin.eof() || cin.bad()) {
       cout << "Closing stdin thread." << endl;
